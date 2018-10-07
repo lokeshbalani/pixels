@@ -1,0 +1,22 @@
+.px-hdr {
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+.px-hdr .logo {
+    margin: 0 auto;
+    letter-spacing: 5px;
+    animation: typing 5s linear;
+    overflow: hidden;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}

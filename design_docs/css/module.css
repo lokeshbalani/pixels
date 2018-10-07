@@ -1,0 +1,37 @@
+.px-mdl .mdl-title-wrp {
+    margin: auto 0;
+}
+
+.px-mdl .mdl-title {
+    display: inline-block;
+}
+
+.px-mdl .mdl {
+    width: 100%;
+    height: auto;
+    background-color: #e2e2e2;
+    border-radius: 30px;
+    position: relative;
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(233, 233, 233, 1);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(233, 233, 233, 1);
+    box-shadow: 0px 0px 10px 5px rgba(233, 233, 233, 1);
+}
+
+.px-mdl .mdl:hover {
+    background-color: #d2d2d2;
+    border: 1px solid;
+}
+
+.px-mdl .mdl-nm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+/* 768px+ */
+@media only screen and (min-width:48em) {
+    .px-mdl .mdl {
+        height: 300px;
+    }
+}
