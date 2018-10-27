@@ -1,5 +1,7 @@
 # PIXELS - Interactive Image Processing WebApp
 
+Interactive web application for demonstrating digital image processing techniques.
+
 ## Instructions : Running the Webapp (without `virtualenv`)
 ```bash
 git clone https://github.com/lokeshbalani/pixels.git
