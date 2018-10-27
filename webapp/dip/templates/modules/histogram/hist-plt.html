@@ -10,3 +10,23 @@
 </div>
 {% endblock %}
 
+{% block content %}
+<div id="mdl-1" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Upload an Image</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+        </form>
+
+        <p><a href="{% url 'index' %}">Return to home</a></p>
+    </div>
+    <p><a href="#mdl-2" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+{% endblock %}
