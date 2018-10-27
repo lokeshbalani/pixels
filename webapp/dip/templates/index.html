@@ -1,0 +1,174 @@
+{% extends "base-generic.html" %}
+
+{% block content %}
+<div id="mdl-1" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Histograms</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr thrs no-pd ff3">
+            <a href="hist-plt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Plot</p>
+            </a>
+            <a href="hist-eq.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Histogram Equalisation</p>
+            </a>
+            <a href="adapt-hist-eq.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Adaptive Histogram Equalisation</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-2" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+
+<div id="mdl-2" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Image Thresholding</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr thrs no-pd ff3">
+            <a href="glb-thld.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Global Thresholding</p>
+            </a>
+            <a href="adapt-thld.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Adaptive Thresholding</p>
+            </a>
+            <a href="otsu.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Otsu's Binarisation</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-3" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+
+<div id="mdl-3" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Smoothing Spatial Filters</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr thrs no-pd ff3">
+            <a href="avg-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Averaging</p>
+            </a>
+            <a href="gauss-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Gaussian Filtering</p>
+            </a>
+            <a href="median-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Median Filtering</p>
+            </a>
+        </div>
+        <div class="gdr thrs no-pd ff3">
+            <a href="bilateral-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Bilateral Filtering</p>
+            </a>
+            <a href="custom-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Custom Filters</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-4" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+
+<div id="mdl-4" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Sharpening Spatial Filters</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr thrs no-pd ff3">
+            <a href="sobel-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Sobel Derivatives</p>
+            </a>
+            <a href="scharr-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Scharr Derivatives</p>
+            </a>
+            <a href="laplace-flt.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Laplacian Derivatives</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-5" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+
+<div id="mdl-5" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Morphological Transformations</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr qrtrs no-pd ff3">
+            <a href="erosion.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Erosion</p>
+            </a>
+            <a href="dilation.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Dilation</p>
+            </a>
+            <a href="opening.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Opening</p>
+            </a>
+            <a href="closing.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Closing</p>
+            </a>
+        </div>
+        <div class="gdr qrtrs no-pd ff3">
+            <a href="morph-grad.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Gradient</p>
+            </a>
+            <a href="top-hat.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Top Hat</p>
+            </a>
+            <a href="black-hat.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Black Hat</p>
+            </a>
+            <a href="struct-el.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Structuring Element</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-6" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+
+<div id="mdl-6" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Geometric Transformations</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr thrs no-pd ff3">
+            <a href="scaling.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Scaling</p>
+            </a>
+            <a href="translation.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Translation</p>
+            </a>
+            <a href="rotation.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Rotation</p>
+            </a>
+        </div>
+        <div class="gdr thrs no-pd ff3">
+            <a href="affine-transform.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Affine Transformation</p>
+            </a>
+            <a href="pers-transform.html" class="mdl pri-3 no-border">
+                <p class="mdl-nm txt-center">Perspective Transformation</p>
+            </a>
+        </div>
+    </div>
+    <p><a href="#mdl-4" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+{% endblock %}
