@@ -20,9 +20,9 @@
     </div>
     <div class="gdr fl no-pd">
         <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
         </form>
 
         <p><a href="{% url 'index' %}">Return to home</a></p>

@@ -1,7 +1,8 @@
-py_env
+py_env/
 .vscode/
-__pycache__
+__pycache__/
 webapp/webapp/__pycache__
 webapp/dip/__pycache__
 
 *.sqlite3
+media/
