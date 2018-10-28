@@ -16,11 +16,11 @@ pip install -r requirements.txt
 ```
 
 ```bash
-python manage.py makemigrations
+python webapp/manage.py makemigrations
 ```
 
 ```bash
-python manage.py migrate
+python webapp/manage.py migrate
 ```
 
 ```bash
@@ -49,15 +49,15 @@ pip install -r requirements.txt
 ```
 
 ```bash
-python manage.py makemigrations
+python webapp/manage.py makemigrations
 ```
 
 ```bash
-python manage.py migrate
+python webapp/manage.py migrate
 ```
 
 ```bash
-sudo python manage.py runserver
+sudo python webapp/manage.py runserver
 ```
 
 When done deactivate/terminate the virtual environment
