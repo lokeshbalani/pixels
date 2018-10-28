@@ -24,7 +24,7 @@ python webapp/manage.py migrate
 ```
 
 ```bash
-sudo python manage.py runserver
+sudo python webapp/manage.py runserver
 ```
 
 ## Instructions : Running the Webapp (on `virtualenv`)
