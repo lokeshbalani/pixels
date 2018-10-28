@@ -24,7 +24,7 @@ python manage.py migrate
 ```
 
 ```bash
-python manage.py runserver
+sudo python manage.py runserver
 ```
 
 ## Instructions : Running the Webapp (on `virtualenv`)
@@ -57,7 +57,7 @@ python manage.py migrate
 ```
 
 ```bash
-python manage.py runserver
+sudo python manage.py runserver
 ```
 
 When done deactivate/terminate the virtual environment
