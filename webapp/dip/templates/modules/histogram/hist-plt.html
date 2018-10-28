@@ -35,8 +35,16 @@
             <div class="px-img">
                 <img src="{{ uploaded_image_url }}" alt="User uploded image for Processing">
             </div>
-            
+
             <p>Image uploaded at: <a href="{{ uploaded_image_url }}">{{ uploaded_image_url }}</a></p>
+        {% endif %}
+
+        {% if uploaded_hist_url %}
+            <div class="px-img">
+                <img src="{{ uploaded_hist_url }}" alt="Histogram of user uploded image">
+            </div>
+            
+            <p>Histogram uploaded at: <a href="{{ uploaded_hist_url }}">{{ uploaded_hist_url }}</a></p>
         {% endif %}
 
         <p><a href="{% url 'index' %}">Return to home</a></p>
