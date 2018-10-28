@@ -46,6 +46,10 @@
     .gdr{
         grid-gap: 20px;
     }
+    .hfs {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: ". .";
+    }
     .thrs {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas: ". . .";

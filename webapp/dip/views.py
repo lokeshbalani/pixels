@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
 
 from datetime import date
 import os
 from dip.py_modules.Histogram import Histogram
+from PIL import Image
+from io import BytesIO
 
 # Create your views here.
 def index(request):
@@ -25,9 +28,21 @@ def images_dirpath(suffix, filename, prefix=None):
     today = date.today()
     today_path = today.strftime("%Y/%m/%d")
 
-    filename = os.path.join(PATH_SUFFIX, today_path, PATH_PREFIX, filename)
+    fname = generate_filename(filename, prefix)
+    filepath = os.path.join(PATH_SUFFIX, today_path, fname)
 
-    return filename
+    return filepath
+
+def get_filename(filepath):
+    return os.path.split(filepath)
+
+def generate_filename(fname, prefix=None):
+    if prefix is not None:
+        PATH_PREFIX = prefix 
+    else:
+        PATH_PREFIX = ''
+
+    return PATH_PREFIX + fname
 
 def histogram_plot_view(request):
     template_name = 'modules/histogram/hist-plt.html'
@@ -39,16 +54,33 @@ def histogram_plot_view(request):
         filename = fs.save(upload_to, uploaded_image)
         uploaded_image_url = fs.url(filename)
 
-        # Generate Histogram
-        histr = Histogram(uploaded_image_url).generate_histogram()
+        uimage_path, uimage_fname = get_filename(uploaded_image_url)
 
-        save_to = images_dirpath('output_images', uploaded_image.name, 'hist_')
-        fname = fs.save(save_to, histr)
-        uploaded_hist_url = fs.url(fname)
+        # Generate the output image path
+        save_to = images_dirpath('output_images', uimage_fname, 'histogram_')
+        save_to_abs = os.path.join(settings.MEDIA_ROOT, save_to)
+
+        generated_hist_path = uimage_path.replace('input_images', 'output_images')
+        generated_hist_fname = generate_filename(uimage_fname, 'histogram_')
+        generated_hist_url = os.path.join(generated_hist_path, generated_hist_fname)
+
+        # Generate Histogram
+        Histogram(uploaded_image_url, save_to_abs).generate_histogram()
+        # histr_image = Image.fromarray(histr, 'RGB')
+
+        # # Get the Django file object
+        # histr_io = BytesIO()
+        # histr.save(histr_io, format='JPEG')
+
+        
+        # print(save_to)
+        # fname = fs.save(save_to, ContentFile(histr_io.getvalue()))
+        # print(fname)
+        # uploaded_hist_url = fs.url(fname)
 
         return render(request, template_name, {
             'uploaded_image_url': uploaded_image_url,
-            'uploaded_hist_url': uploaded_hist_url
+            'generated_hist_url': generated_hist_url
         })
 
     return render(request, template_name)

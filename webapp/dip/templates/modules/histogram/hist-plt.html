@@ -19,35 +19,31 @@
         </div>
     </div>
     <div class="gdr fl no-pd">
-        <!-- <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Upload</button>
-        </form> -->
+        <div class="gdr fl no-pd">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="usr_upload_image">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="usr_upload_image">
-            <button type="submit">Upload</button>
-        </form>
+        <div class="gdr hfs no-pd">
+            {% if uploaded_image_url %}
+                <div class="px-img">
+                    <img src="{{ uploaded_image_url }}" alt="User uploded image for Processing">
+                    <p>Image uploaded at: <a href="{{ uploaded_image_url }}">{{ uploaded_image_url }}</a></p>
+                </div>
+            {% endif %}
 
-        {% if uploaded_image_url %}
-            <div class="px-img">
-                <img src="{{ uploaded_image_url }}" alt="User uploded image for Processing">
-            </div>
+            {% if generated_hist_url %}
+                <div class="px-img">
+                    <img src="{{ generated_hist_url }}" alt="Histogram of user uploded image">
+                    <p>Histogram uploaded at: <a href="{{ generated_hist_url }}">{{ generated_hist_url }}</a></p>
+                </div>
+            {% endif %}
 
-            <p>Image uploaded at: <a href="{{ uploaded_image_url }}">{{ uploaded_image_url }}</a></p>
-        {% endif %}
-
-        {% if uploaded_hist_url %}
-            <div class="px-img">
-                <img src="{{ uploaded_hist_url }}" alt="Histogram of user uploded image">
-            </div>
-            
-            <p>Histogram uploaded at: <a href="{{ uploaded_hist_url }}">{{ uploaded_hist_url }}</a></p>
-        {% endif %}
-
-        <p><a href="{% url 'index' %}">Return to home</a></p>
+            <p><a href="{% url 'index' %}">Return to home</a></p>
+        </div>
     </div>
     <p><a href="#mdl-2" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
 </div>
