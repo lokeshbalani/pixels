@@ -1,48 +1,11 @@
 from django.shortcuts import render, redirect
-from django.views import generic
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from django.core.files.base import ContentFile
 
-from datetime import date
 import os
 from dip.py_modules.Histogram import Histogram
-from PIL import Image
-from io import BytesIO
 
-# Create your views here.
-def index(request):
-    """View function for home page of site."""
-
-    # Render the HTML template index.html
-    return render(request, 'index.html')
-
-def images_dirpath(suffix, filename, prefix=None):
-    PATH_SUFFIX = suffix 
-
-    if prefix is not None:
-        PATH_PREFIX = prefix 
-    else:
-        PATH_PREFIX = ''
-
-    today = date.today()
-    today_path = today.strftime("%Y/%m/%d")
-
-    fname = generate_filename(filename, prefix)
-    filepath = os.path.join(PATH_SUFFIX, today_path, fname)
-
-    return filepath
-
-def get_filename(filepath):
-    return os.path.split(filepath)
-
-def generate_filename(fname, prefix=None):
-    if prefix is not None:
-        PATH_PREFIX = prefix 
-    else:
-        PATH_PREFIX = ''
-
-    return PATH_PREFIX + fname
+from .helpers import get_filename, images_dirpath, generate_filename
 
 def histogram_plot_view(request):
     template_name = 'modules/histogram/hist-plt.html'
