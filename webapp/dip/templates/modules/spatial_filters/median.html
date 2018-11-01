@@ -1,0 +1,50 @@
+{% extends "base-generic.html" %}
+
+{% block marquee %}
+<div class="gdr fl h100v vcenter r9010 px">
+    <div class="px-hdr ff2">
+        <a href="{% url 'index' %}" class="logo pri-0 no-border">MEDIAN FILTER</a>
+        <p class="pri-3">Interactive Image Processing</p>
+    </div>
+    <p><a href="#mdl-1" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="mdl-1" class="px-mdl gdr fl h100v px r207010">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 txt-center px-title">Upload an Image</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div class="gdr fl no-pd">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="usr_upload_image">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div class="gdr hfs no-pd">
+            {% if uploaded_image_url %}
+                <div class="px-img">
+                    <img src="{{ uploaded_image_url }}" alt="User uploded image for Processing">
+                    <p>Image uploaded at: <a href="{{ uploaded_image_url }}">{{ uploaded_image_url }}</a></p>
+                </div>
+            {% endif %}
+
+            {% if generated_median_url %}
+                <div class="px-img">
+                    <img src="{{ generated_median_url }}" alt="Median Filtered Image">
+                    <p>Median filtered Image uploaded at: <a href="{{ generated_median_url }}">{{ generated_median_url }}</a></p>
+                </div>
+            {% endif %}
+
+            <p><a href="{% url 'index' %}">Return to home</a></p>
+        </div>
+    </div>
+    <p><a href="#mdl-2" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p>
+</div>
+{% endblock %}
