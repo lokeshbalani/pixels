@@ -32,8 +32,10 @@ def median_filter_view(request):
         generated_median_fname = generate_filename(uimage_fname, 'median_')
         generated_median_url = os.path.join(generated_median_path, generated_median_fname)
 
+        ksize = int(request.POST.get('ksize'))
+
         # Generate Median Filtered Image
-        Median(uploaded_image_url, save_to_abs).generate_median_filtered_image()
+        Median(uploaded_image_url, save_to_abs).generate_median_filtered_image(ksize)
 
         return render(request, template_name, {
             'uploaded_image_url': uploaded_image_url,
