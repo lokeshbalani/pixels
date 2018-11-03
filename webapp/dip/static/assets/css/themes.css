@@ -9,3 +9,7 @@
 .txt-center{
     text-align: center;
 }
+
+.px .px-preview-icon {
+    background: aquamarine;
+}

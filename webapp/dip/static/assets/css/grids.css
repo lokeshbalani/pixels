@@ -37,6 +37,14 @@
     grid-template-rows: 90% 10%;
 }
 
+.gdr.r2080 {
+    grid-template-rows: 20% 80%;
+}
+
+.gdr.r1090 {
+    grid-template-rows: 10% 90%;
+}
+
 .gdr.r207010 {
     grid-template-rows: 20% 70% 10%;
 }

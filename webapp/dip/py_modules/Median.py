@@ -22,13 +22,18 @@ class Median(object):
         return abs_impath
 
     def generate_median_filtered_image(self, ksize):
+
         figure = plt.figure()
         figure.add_subplot(1,1,1)
+        set_dpi = figure.get_dpi()
 
         median_im = cv2.medianBlur(self.image, ksize)
-        disp_fig = plt.imshow(median_im,cmap = 'gray')
+        median_im = cv2.cvtColor(median_im, cv2.COLOR_BGR2RGB)
+
+        figure.set_size_inches(self.image.shape[1]/set_dpi, self.image.shape[0]/set_dpi)
+        disp_fig = plt.imshow(median_im)
         plt.axis('off')
         disp_fig.axes.get_xaxis().set_visible(False)
         disp_fig.axes.get_yaxis().set_visible(False)
 
-        plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0)
+        plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0, dpi=set_dpi * 1.3)

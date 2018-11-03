@@ -59,8 +59,23 @@
     border-bottom: 1px solid;
 }
 
-.px a.no-border {
+.px .px-preview-link {
+    display: block;
+    text-align: center;
+}
+
+.px .no-border {
     border: none;
+}
+
+.px .no-border:hover {
+    border: none;
+}
+
+.px .svg-icon{
+    border-radius: 50%;
+    padding: 5px;
+    margin: 5px;
 }
 
 .px .pri-0 {
