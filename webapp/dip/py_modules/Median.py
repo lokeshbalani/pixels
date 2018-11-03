@@ -21,11 +21,14 @@ class Median(object):
 
         return abs_impath
 
-    def generate_median_filtered_image(self):
-
+    def generate_median_filtered_image(self, ksize):
         figure = plt.figure()
-        figure.add_subplot(111)
+        figure.add_subplot(1,1,1)
 
-        median_im = cv2.medianBlur(self.image, 3)
-        plt.imshow(median_im,cmap = 'gray')
-        plt.savefig(self.plotpath)
+        median_im = cv2.medianBlur(self.image, ksize)
+        disp_fig = plt.imshow(median_im,cmap = 'gray')
+        plt.axis('off')
+        disp_fig.axes.get_xaxis().set_visible(False)
+        disp_fig.axes.get_yaxis().set_visible(False)
+
+        plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0)
