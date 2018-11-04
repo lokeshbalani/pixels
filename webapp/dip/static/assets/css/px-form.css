@@ -222,7 +222,7 @@
     outline: 2px dashed #92b0b3;
 }
 
-.box__config label {
+.box__config>label {
     padding-bottom: 10px;
     display: block;
 }

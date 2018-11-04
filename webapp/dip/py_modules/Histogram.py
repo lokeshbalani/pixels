@@ -30,22 +30,27 @@ class Histogram(object):
 
         return ch
 
-    def generate_histogram(self):
-        ch = self.get_nchannels()
+    def draw_image_histogram(self, img, channel, color='k'):
+        hist = cv2.calcHist([img], channel, None, [256], [0, 256])
+        plt.plot(hist, color=color)
+        plt.xlim([0, 256]) 
+        plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0)
 
+    def generate_grayscale_histogram(self):
+        grayscale_image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        self.draw_image_histogram(grayscale_image, [0])
+
+    def generate_color_histogram(self):
+        for i,col in enumerate(self.color):
+            self.draw_image_histogram(self.image, [i], col)
+
+    def generate_histogram(self, hist_type='grayscale'):
         figure = plt.figure()
         figure.add_subplot(111)
-
-        if ch > 1:
-            for i,col in enumerate(self.color):
-                histr = cv2.calcHist([self.image],[i],None,[256],[0,256])
-                plt.plot(histr,color = col)
-                plt.xlim([-10,266])
-        else:
-            histr = cv2.calcHist([self.image],[0],None,[256],[0,256])
-            plt.plot(histr,color = 'gray')
-            plt.xlim([-10,266])
         
-        plt.savefig(self.plotpath)
+        if hist_type == 'color':
+            self.generate_color_histogram()
+        else:
+            self.generate_grayscale_histogram()
 
 

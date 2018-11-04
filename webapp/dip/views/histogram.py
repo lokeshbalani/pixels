@@ -32,8 +32,10 @@ def histogram_plot_view(request):
         generated_hist_fname = generate_filename(uimage_fname, 'histogram_')
         generated_hist_url = os.path.join(generated_hist_path, generated_hist_fname)
 
+        histogram_type = request.POST.get('histogram_type')
+
         # Generate Histogram
-        Histogram(uploaded_image_url, save_to_abs).generate_histogram()
+        Histogram(uploaded_image_url, save_to_abs).generate_histogram(histogram_type)
 
         return render(request, template_name, {
             'uploaded_image_url': uploaded_image_url,
