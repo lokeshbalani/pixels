@@ -13,12 +13,27 @@
     Array.prototype.forEach.call(forms, function (form) {
         var input = form.querySelector('input[type="file"]'),
             label = form.querySelector('label'),
+            uploadedDisplayEl = form.querySelector('.box__im__uploaded'),
             errorMsg = form.querySelector('.box__error span'),
             restart = form.querySelectorAll('.box__restart'),
             config_range = document.querySelectorAll('.box__range'),
             droppedFiles = false,
             showFiles = function (files) {
-                label.textContent = files.length > 1 ? (input.getAttribute('data-multiple-caption') || '').replace('{count}', files.length) : files[0].name;
+                // label.textContent = files.length > 1 ? (input.getAttribute('data-multiple-caption') || '').replace('{count}', files.length) : files[0].name;
+                label.style.display = 'none';
+                form.querySelector('.box__icon').style.display = 'none';
+                form.classList.remove('box__padding');
+                
+                Array.prototype.forEach.call(files, function (file, index) {
+                    var img = document.createElement('img');
+                    img.onload = function () {
+                        window.URL.revokeObjectURL(this.src);
+                    };
+                    img.style.width = '100%';
+                    img.src = window.URL.createObjectURL(file);
+                    uploadedDisplayEl.append(img);
+                });
+            
             },
             triggerFormSubmit = function () {
                 var event = document.createEvent('HTMLEvents');
