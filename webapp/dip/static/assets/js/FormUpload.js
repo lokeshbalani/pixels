@@ -26,12 +26,14 @@
                 
                 Array.prototype.forEach.call(files, function (file, index) {
                     var img = document.createElement('img');
+                    img.setAttribute("class", "photo")
                     img.onload = function () {
                         window.URL.revokeObjectURL(this.src);
                     };
                     img.style.width = '100%';
                     img.src = window.URL.createObjectURL(file);
                     uploadedDisplayEl.append(img);
+                    px.utils.generate_zoom_pan_img('.px-img')
                 });
             
             },

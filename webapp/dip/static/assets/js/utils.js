@@ -16,8 +16,37 @@
 //     var div = document.createElement('div');
 //     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 // };
+if (typeof (px) === "undefined") px = {};
+if (typeof (px.utils) === "undefined") px.utils = {};
 
 (function (e, t, n) {
     var r = e.querySelectorAll("html")[0];
     r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
+
+    //function to add zoom and pan functionality to images
+    px.utils.generate_zoom_pan_img = function (selector) {
+        // zoom-pan mouse actions
+        $(selector).on('mouseover', function () {
+            $(this).children('.photo').css({
+                'transform': 'scale(' + $(this).attr('data-scale') + ')'
+            });
+        })
+        $(selector).on('mouseout', function () {
+            $(this).children('.photo').css({
+                'transform': 'scale(1)'
+            });
+        })
+        $(selector).on('mousemove', function (e) {
+            $(this).children('.photo').css({
+                'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%'
+            });
+        })
+        // px-img set up
+        $(selector).each(function () {
+            // some text just to show zoom level on current item in this example
+            if($(this).attr('data-scale')){
+                $(this).append('<div class="txt"><strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER</div>')
+            }
+        })
+    }
 })(document, window, 0);
