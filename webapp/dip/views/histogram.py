@@ -5,9 +5,10 @@ from django.core.files.storage import FileSystemStorage
 import os
 from dip.py_modules.Histogram import Histogram
 
-from .helpers import get_filename, images_dirpath, generate_filename
+from .helpers import get_filename, images_dirpath, generate_filename, clean_media_root
 
 def histogram_plot_view(request):
+    clean_media_root()
     template_name = 'modules/histogram/hist-plt.html'
     
     if request.method == 'POST' and request.FILES['usr_upload_image']:
@@ -45,6 +46,7 @@ def histogram_plot_view(request):
     return render(request, template_name)
 
 def histogram_eq_view(request):
+    clean_media_root()
     template_name = 'modules/histogram/hist-eq.html'
     
     if request.method == 'POST' and request.FILES['usr_upload_image']:

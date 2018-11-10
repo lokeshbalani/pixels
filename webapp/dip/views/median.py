@@ -88,8 +88,6 @@ def median_filter_lec_view(request):
             # Generate Median Filtered Image
             Median(uploaded_image_url, save_to_abs).generate_median_filtered_image(int(ksize))
 
-        print(generated_median_url)
-
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,
             'lec_generated_median_url': generated_median_url
