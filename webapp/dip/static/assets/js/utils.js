@@ -24,29 +24,38 @@ if (typeof (px.utils) === "undefined") px.utils = {};
     r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
 
     //function to add zoom and pan functionality to images
-    px.utils.generate_zoom_pan_img = function (selector) {
+    px.utils.generate_zoom_pan_img = function (el) {
+        pximg = el.parentElement;
         // zoom-pan mouse actions
-        $(selector).on('mouseover', function () {
+        $(pximg).on('mouseover', function () {
             $(this).children('.photo').css({
                 'transform': 'scale(' + $(this).attr('data-scale') + ')'
             });
         })
-        $(selector).on('mouseout', function () {
+        $(pximg).on('mouseout', function () {
             $(this).children('.photo').css({
                 'transform': 'scale(1)'
             });
         })
-        $(selector).on('mousemove', function (e) {
+        $(pximg).on('mousemove', function (e) {
             $(this).children('.photo').css({
                 'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%'
             });
         })
         // px-img set up
-        $(selector).each(function () {
+        $(pximg).each(function () {
+            var html = '<div class="txt">';
+
             // some text just to show zoom level on current item in this example
-            if($(this).attr('data-scale')){
-                $(this).append('<div class="txt"><strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER</div>')
+            if($(this).attr('data-ksize')){
+                html += 'MEDIAN FILTER SIZE: <strong class="pri-3 bold">' + $(this).attr('data-ksize') + '</strong><br>';
             }
+            if($(this).attr('data-scale')){
+                html += '<strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER';
+            }
+
+            html += '</div>'
+            $(this).append(html);
         })
     }
 })(document, window, 0);

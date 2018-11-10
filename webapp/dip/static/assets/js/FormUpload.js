@@ -13,16 +13,19 @@
     Array.prototype.forEach.call(forms, function (form) {
         var input = form.querySelector('input[type="file"]'),
             label = form.querySelector('label'),
-            uploadedDisplayEl = form.querySelector('.box__im__uploaded'),
             errorMsg = form.querySelector('.box__error span'),
             restart = form.querySelectorAll('.box__restart'),
             config_range = document.querySelectorAll('.box__range'),
             droppedFiles = false,
-            showFiles = function (files) {
+            showFiles = function (files, target) {
                 // label.textContent = files.length > 1 ? (input.getAttribute('data-multiple-caption') || '').replace('{count}', files.length) : files[0].name;
-                label.style.display = 'none';
-                form.querySelector('.box__icon').style.display = 'none';
-                form.classList.remove('box__padding');
+                // label.style.display = 'none';
+                var placeholder = target.parentElement;
+                placeholder.querySelector('.box__icon').style.display = 'none';
+                placeholder.parentElement.classList.remove('box__padding');
+                
+                var uploadedDisplayEl = placeholder.querySelector('.box__im__uploaded');
+                uploadedDisplayEl.innerHTML = "";
                 
                 Array.prototype.forEach.call(files, function (file, index) {
                     var img = document.createElement('img');
@@ -52,7 +55,7 @@
 
         // automatically submit the form on file select
         input.addEventListener('change', function (e) {
-            showFiles(e.target.files);
+            showFiles(e.target.files, e.target);
         });
 
         // drag&drop files if the feature is available
@@ -78,8 +81,7 @@
             });
             form.addEventListener('drop', function (e) {
                 droppedFiles = e.dataTransfer.files; // the files that were dropped
-                showFiles(droppedFiles);
-
+                showFiles(droppedFiles, e.target.parentElement);
             });
         }
 

@@ -2,7 +2,7 @@ if (typeof (px) === "undefined") px = {};
 if (typeof (px.utils) === "undefined") px.utils = {};
 
 (function (document, window, index) {
-    px.utils.stickyinit = function () {
+    px.stickyinit = function () {
         var stickyElms = document.querySelectorAll(".is-sticky");
 
         for(let i = 0; i < stickyElms.length; i++){
@@ -33,5 +33,5 @@ if (typeof (px.utils) === "undefined") px.utils = {};
         this.init();
     }
 
-    px.utils.stickyinit();
+    px.stickyinit();
 })(document, window, 0)
