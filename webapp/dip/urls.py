@@ -16,4 +16,8 @@ urlpatterns = [
     path('median-filter/', views.median_filter_view, name='median-filter'),
     path('median-filter/diy/', views.median_filter_diy_view, name='median-filter-diy'),
     path('median-filter/lec/', views.median_filter_lec_view, name='median-filter-lec'),
+    path('bilateral-filter/', views.bilateral_filter_view, name='bilateral-filter'),
+    path('bilateral-filter/diy/', views.bilateral_filter_diy_view, name='bilateral-filter-diy'),
+    path('bilateral-filter/lec/', views.bilateral_filter_lec_view, name='bilateral-filter-lec'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
