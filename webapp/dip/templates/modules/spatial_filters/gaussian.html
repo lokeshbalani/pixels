@@ -1,0 +1,198 @@
+{% extends "base-generic.html" %}
+
+{% block marquee %}
+<div class="gdr fl h100v vcenter px">
+    <div class="px-hdr ff2">
+        <h1 class="logo is-sticky pri-0">GAUSSIAN FILTER</h1>
+    </div>
+    <!-- <p><a href="#mdl-1" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p> -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="mdl-1" class="px-mdl gdr fl h100v px r1090">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 px-title">Lecture Companion</h2>
+            <!-- {% if uploaded_image_url == None %}<h2 class="pri-1 ff0 px-title">Upload an Image</h2>{% endif %}
+                {% if uploaded_image_url %}<h2 class="pri-1 ff0 px-title">Filtered Image</h2>{% endif %} -->
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <form method="post" action="{% url 'gaussian-filter-lec' %}" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if lec_uploaded_image_url == None %}
+            <div class="gdr hfs no-pd ff1">
+                <div class="box box__padding">
+                    <div class="box__input">
+                        <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                            <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z" /></svg>
+                        <input type="file" name="prof_upload_image" id="file_prof" class="box__file"
+                            data-multiple-caption="{count} files selected" />
+                        <label for="file_prof"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it
+                                here</span>.</label>
+                        <div class="box__im__uploaded px-img" data-scale="2.4"></div>
+                    </div>
+
+                    <div class="box__uploading">Uploading&hellip;</div>
+                    <div class="box__success">Done!</div>
+                    <div class="box__error">Error! <span></span>. <a href="{% url 'gaussian-filter' %}" class="box__restart"
+                            role="button">Try again!</a></div>
+                </div>
+
+                <div class="box__settings">
+                    <div class="box__title ff2"><span>FILTER SETTINGS</span></div>
+                    <div class="box__config">
+                        <label><span>Kernel Sizes</span><strong class="box__rangeval"></strong></label>
+                        <div class="box__slider">
+                            <input type="checkbox" name="ksize" id="ksize_3" class="box__checkbox" value="3" checked />
+                            <label for="ksize_3"><span>3</span></label>
+                            <input type="checkbox" name="ksize" id="ksize_5" class="box__checkbox" value="5" checked />
+                            <label for="ksize_5"><span>5</span></label>
+                            <input type="checkbox" name="ksize" id="ksize_9" class="box__checkbox" value="9" checked />
+                            <label for="ksize_9"><span>9</span></label>
+                            <input type="checkbox" name="ksize" id="ksize_13" class="box__checkbox" value="13" checked />
+                            <label for="ksize_13"><span>13</span></label>
+                            <input type="checkbox" name="ksize" id="ksize_25" class="box__checkbox" value="25" checked />
+                            <label for="ksize_25"><span>25</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="box__button">FILTER IMAGE</button>
+        </form>
+        {% endif %}
+
+        <div class="gdr hfs no-pd">
+            {% if lec_uploaded_image_url %}
+            <div>
+                <h3 class="pri-4 ff2 txt-center px-title">Uploaded Image</h3>
+                <div class="px-img" data-scale="2.4">
+                    <img class="photo" src="{{ lec_uploaded_image_url }}" alt="User uploded image for Processing"
+                        onload="px.utils.generate_zoom_pan_img(this);">
+                </div>
+                <a href="{{ lec_uploaded_image_url }}" target="_blank" class="px-preview-link no-border">
+                    <svg class="svg-icon px-preview-icon" width="50px" height="50px" viewBox="0 0 20 20">
+                        <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+
+            {% if lec_generated_gaussian_url %}
+
+            <div class="slider-container">
+                <h3 class="pri-4 txt-center ff2 px-title">Filtered Image</h3>
+
+                {% for generated_gaussian in lec_generated_gaussian_url %}
+                <div class="slide fade">
+                    <div class="px-img" data-scale="2.4" data-ksize="{{ generated_gaussian.ksize }}">
+                        <img class="photo" src="{{ generated_gaussian.url }}" alt="Gaussian Filtered Image" onload="px.utils.generate_zoom_pan_img(this);">
+                    </div>
+                    <a href="{{ generated_gaussian.url }}" target="_blank" class="px-preview-link no-border">
+                        <svg class="svg-icon px-preview-icon" width="50px" height="50px" viewBox="0 0 20 20">
+                            <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
+                        </svg>
+                    </a>
+                </div>
+                {% endfor %}
+
+                <a class="prev">&#10094;</a>
+                <a class="next">&#10095;</a>
+            </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+
+<div id="mdl-1" class="px-mdl gdr fl h100v px r1090">
+    <div class="mdl-title-wrp">
+        <div class="mdl-title">
+            <h2 class="pri-1 ff0 px-title">Do It Yourself</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <form method="post" action="{% url 'gaussian-filter-diy' %}" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if diy_uploaded_image_url == None %}
+            <div class="gdr hfs no-pd ff1">
+                <div class="box box__padding">
+                    <div class="box__input">
+                        <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                            <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z" /></svg>
+                        <input type="file" name="usr_upload_image" id="file_usr" class="box__file"
+                            data-multiple-caption="{count} files selected" />
+                        <label for="file_usr"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it
+                                here</span>.</label>
+                        <div class="box__im__uploaded px-img" data-scale="2.4"></div>
+                    </div>
+
+                    <div class="box__uploading">Uploading&hellip;</div>
+                    <div class="box__success">Done!</div>
+                    <div class="box__error">Error! <span></span>. <a href="{% url 'gaussian-filter' %}" class="box__restart"
+                            role="button">Try again!</a></div>
+                </div>
+
+                <div class="box__settings">
+                    <div class="box__title ff2"><span>FILTER SETTINGS</span></div>
+                    <div class="box__config">
+                        <label for="range"><span>Kernel Size</span><strong class="box__rangeval"></strong></label>
+                        <div class="box__slider">
+                            <input type="range" name="ksize" id="ksize" class="box__range" min="3" value="3" max="25"
+                                step="2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="box__button">FILTER IMAGE</button>
+        </form>
+        {% endif %}
+
+        <div class="gdr hfs no-pd">
+            {% if diy_uploaded_image_url %}
+            <div>
+                <h3 class="pri-4 ff2 txt-center px-title">Uploaded Image</h3>
+                <div class="px-img" data-scale="2.4">
+                    <img class="photo" src="{{ diy_uploaded_image_url }}" alt="User uploded image for Processing"
+                        onload="px.utils.generate_zoom_pan_img('.px-img');">
+                </div>
+                <a href="{{ diy_uploaded_image_url }}" target="_blank" class="px-preview-link no-border">
+                    <svg class="svg-icon px-preview-icon" width="50px" height="50px" viewBox="0 0 20 20">
+                        <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+
+            {% if diy_generated_gaussian_url %}
+            <div>
+                <h3 class="pri-4 txt-center ff2 px-title">Filtered Image</h3>
+                <div class="px-img" data-scale="2.4">
+                    <img class="photo" src="{{ diy_generated_gaussian_url }}" alt="Gaussian Filtered Image" onload="px.utils.generate_zoom_pan_img(this);">
+                </div>
+                <a href="{{ diy_generated_gaussian_url }}" target="_blank" class="px-preview-link no-border">
+                    <svg class="svg-icon px-preview-icon" width="50px" height="50px" viewBox="0 0 20 20">
+                        <path d="M10,6.978c-1.666,0-3.022,1.356-3.022,3.022S8.334,13.022,10,13.022s3.022-1.356,3.022-3.022S11.666,6.978,10,6.978M10,12.267c-1.25,0-2.267-1.017-2.267-2.267c0-1.25,1.016-2.267,2.267-2.267c1.251,0,2.267,1.016,2.267,2.267C12.267,11.25,11.251,12.267,10,12.267 M18.391,9.733l-1.624-1.639C14.966,6.279,12.563,5.278,10,5.278S5.034,6.279,3.234,8.094L1.609,9.733c-0.146,0.147-0.146,0.386,0,0.533l1.625,1.639c1.8,1.815,4.203,2.816,6.766,2.816s4.966-1.001,6.767-2.816l1.624-1.639C18.536,10.119,18.536,9.881,18.391,9.733 M16.229,11.373c-1.656,1.672-3.868,2.594-6.229,2.594s-4.573-0.922-6.23-2.594L2.41,10l1.36-1.374C5.427,6.955,7.639,6.033,10,6.033s4.573,0.922,6.229,2.593L17.59,10L16.229,11.373z"></path>
+                    </svg>
+                </a>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<!-- Add additional CSS and JS in static file -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/px-form.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/slider.css' %}">
+
+<script src="{% static 'assets/js/FormUpload.js' %}"></script>
+<script src="{% static 'assets/js/slider.js' %}"></script>
+
+{% endblock %}
