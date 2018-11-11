@@ -21,13 +21,11 @@ class Gaussian(object):
 
         return abs_impath
 
-    def generate_gaussian_filtered_image(self, ksize):
+    def generate_gaussian_filtered_image(self, ksize, sigma ):
 
         figure = plt.figure()
         figure.add_subplot(1,1,1)
         set_dpi = figure.get_dpi()
-
-        sigma = 1 ######################################################### To change
 
         gaussian_im = cv2.GaussianBlur(self.image, (ksize,ksize),sigma)
         gaussian_im = cv2.cvtColor(gaussian_im, cv2.COLOR_BGR2RGB)
