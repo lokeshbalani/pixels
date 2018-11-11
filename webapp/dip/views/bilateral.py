@@ -38,10 +38,12 @@ def bilateral_filter_diy_view(request):
         generated_bilateral_fname = generate_filename(uimage_fname, 'bilateral_')
         generated_bilateral_url = os.path.join(generated_bilateral_path, generated_bilateral_fname)
 
-        ksize = int(request.POST.get('ksize'))
+        ksize      = int(request.POST.get('ksize'))
+        sigmaColor = int(request.POST.get('sigmaColor'))
+        sigmaSpace = int(request.POST.get('sigmaSpace'))
 
         # Generate Bilateral Filtered Image
-        Bilateral(uploaded_image_url, save_to_abs).generate_bilateral_filtered_image(ksize)
+        Bilateral(uploaded_image_url, save_to_abs).generate_bilateral_filtered_image(ksize, sigmaColor, sigmaSpace)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,

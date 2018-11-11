@@ -142,10 +142,25 @@
                     <div class="box__config">
                         <label for="range"><span>Kernel Size</span><strong class="box__rangeval"></strong></label>
                         <div class="box__slider">
-                            <input type="range" name="ksize" id="ksize" class="box__range" min="3" value="3" max="25"
+                            <input type="range" name="ksize" id="ksize" class="box__range" min="3" value="5" max="25"
                                 step="2" />
                         </div>
                     </div>
+                    <div class="box__config">
+                        <label for="range"><span>Sigma Color</span><strong class="box__rangeval"></strong></label>
+                        <div class="box__slider">
+                            <input type="range" name="sigmaColor" id="sigmaColor" class="box__range" min="1" value="30" max="100"
+                                step="1" />
+                        </div>
+                    </div>
+                    <div class="box__config">
+                        <label for="range"><span>Sigma Space</span><strong class="box__rangeval"></strong></label>
+                        <div class="box__slider">
+                            <input type="range" name="sigmaSpace" id="sigmaSpace" class="box__range" min="1" value="30" max="100"
+                                step="1" />
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <button type="submit" class="box__button">FILTER IMAGE</button>

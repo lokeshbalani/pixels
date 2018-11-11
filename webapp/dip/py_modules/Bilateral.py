@@ -21,7 +21,7 @@ class Bilateral(object):
 
         return abs_impath
 
-    def generate_bilateral_filtered_image(self, ksize, sigmaColor=30, sigmaSpace = 30):
+    def generate_bilateral_filtered_image(self, ksize, sigmaColor = 30, sigmaSpace = 30):
 
         figure = plt.figure()
         figure.add_subplot(1,1,1)
