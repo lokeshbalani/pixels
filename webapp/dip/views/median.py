@@ -11,7 +11,10 @@ def median_filter_view(request):
     clean_media_root()
 
     template_name = 'modules/spatial_filters/median.html'
-    return render(request, template_name)
+    return render(request, template_name, {
+        "show_lec_form": "true",
+        "show_diy_form": "true"
+    })
 
 def median_filter_diy_view(request):    
     template_name = 'modules/spatial_filters/median.html'
@@ -45,7 +48,9 @@ def median_filter_diy_view(request):
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
-            'diy_generated_median_url': generated_median_url
+            'diy_generated_median_url': generated_median_url,
+            "show_lec_form": "false",
+            "show_diy_form": "true"
         })
 
     return render(request, template_name)
@@ -90,7 +95,9 @@ def median_filter_lec_view(request):
 
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,
-            'lec_generated_median_url': generated_median_url
+            'lec_generated_median_url': generated_median_url,
+            "show_lec_form": "true",
+            "show_diy_form": "false"
         })
 
     return render(request, template_name)

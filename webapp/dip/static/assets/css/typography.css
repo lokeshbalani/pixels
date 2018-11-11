@@ -73,7 +73,6 @@
 }
 
 .px .svg-icon{
-    border-radius: 50%;
     padding: 5px;
     margin: 5px;
 }
@@ -142,6 +141,7 @@
 
 .px .hr5 {
     height: 5px;
+    box-shadow: 1px 1px 1px 1px grey inset;
 }
 
 .px ul.no-bullets {

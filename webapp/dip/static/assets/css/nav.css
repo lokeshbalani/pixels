@@ -1,0 +1,23 @@
+.px-prinav {
+    text-align: right;
+}
+
+.px .nav-link {
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px 1px #4d4c4c inset
+}
+
+.px .nav-link:hover {
+    background: #7fffd4
+}
+
+.px-prinav.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 99999;
+    left: 0;
+    right: 0;
+    margin: 5px auto;
+    max-width: 1280px;
+    display: block;
+}

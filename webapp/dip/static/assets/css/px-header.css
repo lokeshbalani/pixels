@@ -1,12 +1,12 @@
 .px-hdr {
     box-sizing: border-box;
-    margin: 20px 0;
+    margin: -65px 0 20px;
 }
 
 .px-hdr .logo {
     margin: 0 auto;
     letter-spacing: 5px;
-    animation: typing 1s linear;
+    /* animation: typing 1s linear; */
     overflow: hidden;
     display: inline-block;
 }
@@ -31,8 +31,12 @@
     max-width: 1280px;
 }
 
+.px-hdr.px-hdr.sticky .logo {
+    animation: none;
+}
+
 /* The typing effect */
-@keyframes typing {
+/* @keyframes typing {
     from {
         width: 0
     }
@@ -40,4 +44,4 @@
     to {
         width: 100%
     }
-}
+} */

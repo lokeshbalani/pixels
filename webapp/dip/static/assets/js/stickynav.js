@@ -16,9 +16,11 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
         this.doSticky = function(elTop){
             if (window.pageYOffset >= elTop) {
-                comp.parentElement.classList.add("sticky")
+                comp.parentElement.classList.add("sticky");
+                comp.closest('.px').firstElementChild.classList.add("sticky");
             } else {
                 comp.parentElement.classList.remove("sticky");
+                comp.closest('.px').firstElementChild.classList.remove("sticky");
             }
         };
 
