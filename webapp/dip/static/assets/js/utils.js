@@ -48,7 +48,7 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
             // some text just to show zoom level on current item in this example
             if($(this).attr('data-ksize')){
-                html += 'MEDIAN FILTER SIZE: <strong class="pri-3 bold">' + $(this).attr('data-ksize') + '</strong><br>';
+                html += 'KERNEL SIZE: <strong class="pri-3 bold">' + $(this).attr('data-ksize') + '</strong><br>';
             }
             if($(this).attr('data-scale')){
                 html += '<strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER';
