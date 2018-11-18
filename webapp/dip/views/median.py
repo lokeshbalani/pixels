@@ -44,7 +44,9 @@ def median_filter_diy_view(request):
         ksize = int(request.POST.get('ksize'))
 
         # Generate Median Filtered Image
-        Median(uploaded_image_url, save_to_abs).generate_median_filtered_image(ksize)
+        median_flt = Median(uploaded_image_url, save_to_abs)
+        im_dim = median_flt.get_im_dim()
+        median_flt.generate_median_filtered_image(ksize)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
@@ -83,15 +85,21 @@ def median_filter_lec_view(request):
 
             generated_median_path = uimage_path.replace('input_images', 'output_images')
             generated_median_fname = generate_filename(uimage_fname, MEDIAN_PREFIX)
+
+            # Generate Median Filtered Image
+            median_flt = Median(uploaded_image_url, save_to_abs)
+            im_dim = median_flt.get_im_dim()
+            ptime = median_flt.generate_median_filtered_image(int(ksize))
+
             generated_median_obj = {
                 "ksize": ksize,
-                "url": os.path.join(generated_median_path, generated_median_fname)
+                "url": os.path.join(generated_median_path, generated_median_fname),
+                "w": im_dim[1],
+                "h": im_dim[0],
+                "ptime": ptime
             }
 
             generated_median_url.append(generated_median_obj)
-
-            # Generate Median Filtered Image
-            Median(uploaded_image_url, save_to_abs).generate_median_filtered_image(int(ksize))
 
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,

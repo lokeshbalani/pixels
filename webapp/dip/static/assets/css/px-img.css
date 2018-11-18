@@ -18,3 +18,49 @@
     cursor: default;
     background: rgba(255, 255, 255, 0.5);
 }
+
+.px .px-img-ctrl {
+    display: block;
+    text-align: center;
+}
+
+.px .px-preview-link,
+.px .px-info {
+    display: inline-block;
+    position: relative;
+}
+
+.px .px-preview-icon,
+.px .px-info-icon {
+    border-radius: 50%;
+    background: #7fffd4
+}
+
+.px-info .info-data {
+    display: none;
+    position: absolute;
+    background: khaki;
+    bottom: 75px;
+    z-index: 9;
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 1px 1px 1px 1px darkgrey;
+    font-weight: bold;
+    transition: all 0.5s ease-in;
+}
+
+.px-info .info-data li {
+    margin-bottom: 10px;
+}
+
+.px-info .info-data li:last-child {
+    margin-bottom: 0;
+}
+
+.px-info:hover .info-data {
+    display: block;
+}

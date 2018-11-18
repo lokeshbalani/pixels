@@ -1,7 +1,8 @@
 import cv2
 from matplotlib import pyplot as plt
-
 import os
+from time import time
+
 from django.conf import settings
 
 class Median(object):
@@ -10,9 +11,13 @@ class Median(object):
         self.image = cv2.imread(self.impath)
         #self.color = ('b','g','r')
         self.plotpath = pltpath
+        self.dim = self.image.shape
 
     def get_image(self):
         return self.image
+
+    def get_im_dim(self):
+        return self.dim
 
     def get_path(self, impath):
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +32,12 @@ class Median(object):
         figure.add_subplot(1,1,1)
         set_dpi = figure.get_dpi()
 
+        start = time()
         median_im = cv2.medianBlur(self.image, ksize)
+        end = time()
+
+        ptime = end-start
+
         median_im = cv2.cvtColor(median_im, cv2.COLOR_BGR2RGB)
 
         figure.set_size_inches(self.image.shape[1]/set_dpi, self.image.shape[0]/set_dpi)
@@ -37,3 +47,5 @@ class Median(object):
         disp_fig.axes.get_yaxis().set_visible(False)
 
         plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0, dpi=set_dpi * 1.3)
+
+        return ptime
