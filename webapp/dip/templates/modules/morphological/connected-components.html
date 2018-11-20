@@ -20,3 +20,27 @@
     <!-- <p><a href="#mdl-1" class="txt scrl-dwn ff2">&darr; Scroll Down</a></p> -->
 </div>
 {% endblock %}
+
+{% block content %}
+<div id="mdl-1" class="px-mdl gdr fl px pb6">
+    <div class="mdl-title-wrp txt-center">
+        <div class="mdl-title">
+            <hr class="hr5">
+            <h2 class="pri-1 ff0 px-title">Lecture Companion</h2>
+            <hr class="hr5">
+        </div>
+    </div>
+    <div class="gdr fl no-pd">
+        <div id="connected-components-canvas"></div>
+    </div>
+</div>
+
+<!-- Add additional CSS and JS in static file -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/slickgrid/slick.grid.css' %}">
+<link rel="stylesheet" href="{% static 'assets/slickgrid/css/smoothness/jquery-ui-1.8.16.custom.css' %}">
+
+<script src="{% static 'assets/slickgrid/lib/jquery.event.drag-2.2.js' %}"></script>
+<script src="{% static 'assets/slickgrid/slick.core.js' %}"></script>
+<script src="{% static 'assets/slickgrid/slick.grid.js' %}"></script>
+{% endblock %}
