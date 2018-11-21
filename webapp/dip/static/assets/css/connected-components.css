@@ -25,11 +25,13 @@ table {
 #connected-component-grid .black {
     background: #000;
     color: #fff;
+    /*contenteditable:'true';*/
 }
 
 #connected-component-grid .white {
     background: #fff;
     color: #000;
+    /*contenteditable:'true';*/
 }
 
 /* #connected-component-grid tr:nth-child(2n+1) td:nth-child(2n) {

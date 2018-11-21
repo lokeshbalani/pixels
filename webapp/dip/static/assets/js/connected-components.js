@@ -23,9 +23,9 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
                 for(j = 0; j < mat[i].length; j++){
                     if(mat[i][j] == 1){
-                        html += "<td class='white' data-pos='"+i+","+j+"'>"+mat[i][j]+"</td>"
+                        html += "<td class='white' contenteditable='true' data-pos='"+i+","+j+"'>"+mat[i][j]+"</td>"
                     } else{
-                        html += "<td class='black' data-pos='"+i+","+j+"'>"+mat[i][j]+"</td>"
+                        html += "<td class='black' contenteditable='true' data-pos='"+i+","+j+"'>"+mat[i][j]+"</td>"
                     }
                 }
 
