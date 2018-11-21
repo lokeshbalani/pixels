@@ -30,13 +30,35 @@
             <hr class="hr5">
         </div>
     </div>
-    <div class="gdr fl no-pd">
-        <div id="connected-component">
-            <table id="connected-component-grid">
+    <div class="gdr fl no-pd ff1">
+        <div class="connected-component">
+            <h2 class="pri-3 txt-center">Input</h2>
+            <table id="connected-component-in">
+                <tbody></tbody>
+            </table>
+
+            <div class="cc__input">
+                <input type="radio" value="4" name="connectivity" id="connectivity_4">
+                <label for="connectivity_4">Connectivity = 4</label>
+                <input type="radio" value="8" name="connectivity" id="connectivity_8" checked>
+                <label for="connectivity_8">Connectivity = 8</label>
+                <button class="cc__fp">First Pass</button>
+            </div>
+
+        </div>
+
+        <div class="connected-component">
+            <h2 class="pri-3 txt-center">First Pass</h2>
+            <table id="connected-component-fp">
                 <tbody></tbody>
             </table>
         </div>
 
+        <div class="connected-component">
+            <table id="connected-component-sp">
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
