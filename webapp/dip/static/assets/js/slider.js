@@ -63,6 +63,7 @@ if (typeof (px.utils) === "undefined") px.utils = {};
             }
 
             slides[this.config.slideIndex].style.display = "block";
+            px.utils.init_canvas_selectnzoom(slides[this.config.slideIndex].querySelector(".originalCanvas"));
         };
 
         this.init = function () {
@@ -70,6 +71,7 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
             comp.querySelector(".prev").onclick = function () {
                 me.add(-1);
+                px.utils.init_canvas_selectnzoom();
             }
 
             comp.querySelector(".next").onclick = function () {

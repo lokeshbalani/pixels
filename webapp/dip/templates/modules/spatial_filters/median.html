@@ -136,8 +136,8 @@
                 </div>
                 {% endfor %}
 
-                <a class="prev">&#10094;</a>
-                <a class="next">&#10095;</a>
+                <a class="prev">&#10094; Prev Kernel</a>
+                <a class="next">Next Kernel &#10095;</a>
             </div>
             {% endif %}
 
@@ -199,7 +199,7 @@
                 <h3 class="pri-4 ff2 txt-center px-title">Uploaded Image</h3>
                 <div class="px-img">
                     <img class="photo" src="{{ diy_uploaded_image_url }}" alt="User uploded image for Processing"
-                        onload="px.utils.generate_zoom_pan_img('.px-img');">
+                        onload="px.utils.generate_zoom_pan_img(this);">
                 </div>
                 <div class="px-img-ctrl">
                     <a href="{{ diy_uploaded_image_url }}" target="_blank" class="px-preview-link no-border">
