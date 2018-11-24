@@ -11,7 +11,10 @@ def bilateral_filter_view(request):
     clean_media_root()
 
     template_name = 'modules/spatial_filters/bilateral.html'
-    return render(request, template_name)
+    return render(request, template_name, {
+        "show_lec_form": "true",
+        "show_diy_form": "true"
+    })
 
 def bilateral_filter_diy_view(request):    
     template_name = 'modules/spatial_filters/bilateral.html'
@@ -43,11 +46,15 @@ def bilateral_filter_diy_view(request):
         sigmaSpace = int(request.POST.get('sigmaSpace'))
 
         # Generate Bilateral Filtered Image
-        Bilateral(uploaded_image_url, save_to_abs).generate_bilateral_filtered_image(ksize, sigmaColor, sigmaSpace)
+        bilateral_flt = Bilateral(uploaded_image_url, save_to_abs)
+        im_dim = bilateral_flt.get_im_dim()
+        bilateral_flt.generate_bilateral_filtered_image(int(ksize), sigmaColor, sigmaSpace)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
-            'diy_generated_bilateral_url': generated_bilateral_url
+            'diy_generated_bilateral_url': generated_bilateral_url,
+            "show_lec_form": "false",
+            "show_diy_form": "true"
         })
 
     return render(request, template_name)
@@ -65,6 +72,9 @@ def bilateral_filter_lec_view(request):
         uimage_path, uimage_fname = get_filename(uploaded_image_url)
 
         ksize_list = request.POST.getlist('ksize')
+        sigmaColor = int(request.POST.get('sigmaColor'))
+        sigmaSpace = int(request.POST.get('sigmaSpace'))
+
         generated_bilateral_url = list()
 
         for ksize in ksize_list:
@@ -80,19 +90,29 @@ def bilateral_filter_lec_view(request):
 
             generated_bilateral_path = uimage_path.replace('input_images', 'output_images')
             generated_bilateral_fname = generate_filename(uimage_fname, BILATERAL_PREFIX)
+
+            # Generate Bilateral Filtered Image        
+            bilateral_flt = Bilateral(uploaded_image_url, save_to_abs)
+            im_dim = bilateral_flt.get_im_dim()
+            ptime = bilateral_flt.generate_bilateral_filtered_image(int(ksize), sigmaColor, sigmaSpace)
+
             generated_bilateral_obj = {
                 "ksize": ksize,
-                "url": os.path.join(generated_bilateral_path, generated_bilateral_fname)
+                "url": os.path.join(generated_bilateral_path, generated_bilateral_fname),
+                "w": im_dim[1],
+                "h": im_dim[0],
+                "ptime": ptime
             }
 
             generated_bilateral_url.append(generated_bilateral_obj)
 
-            # Generate Bilateral Filtered Image
-            Bilateral(uploaded_image_url, save_to_abs).generate_bilateral_filtered_image(int(ksize))
-
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,
-            'lec_generated_bilateral_url': generated_bilateral_url
+            'lec_generated_bilateral_url': generated_bilateral_url,
+            "show_lec_form": "true",
+            "show_diy_form": "false"
         })
 
     return render(request, template_name)
+
+

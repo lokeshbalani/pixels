@@ -2,6 +2,7 @@ import cv2
 from matplotlib import pyplot as plt
 
 import os
+from time import time
 from django.conf import settings
 
 class Bilateral(object):
@@ -10,9 +11,13 @@ class Bilateral(object):
         self.image = cv2.imread(self.impath)
         #self.color = ('b','g','r')
         self.plotpath = pltpath
+        self.dim = self.image.shape
 
     def get_image(self):
         return self.image
+
+    def get_im_dim(self):
+        return self.dim
 
     def get_path(self, impath):
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,13 +32,20 @@ class Bilateral(object):
         figure.add_subplot(1,1,1)
         set_dpi = figure.get_dpi()
 
-        bilateral_im = cv2.bilateralFilter(self.image, ksize, sigmaColor, sigmaSpace)
-        bilateral_im = cv2.cvtColor(bilateral_im, cv2.COLOR_BGR2RGB)
+        start = time()
+        filtered_im = cv2.bilateralFilter(self.image, int(ksize), int(sigmaColor), int(sigmaSpace))
+        end = time()
+
+        ptime = end-start
+
+        filtered_im = cv2.cvtColor(filtered_im, cv2.COLOR_BGR2RGB)
 
         figure.set_size_inches(self.image.shape[1]/set_dpi, self.image.shape[0]/set_dpi)
-        disp_fig = plt.imshow(bilateral_im)
+        disp_fig = plt.imshow(filtered_im)
         plt.axis('off')
         disp_fig.axes.get_xaxis().set_visible(False)
         disp_fig.axes.get_yaxis().set_visible(False)
 
         plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0, dpi=set_dpi * 1.3)
+
+        return round(ptime,6)
