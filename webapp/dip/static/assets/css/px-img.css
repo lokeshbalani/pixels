@@ -64,3 +64,8 @@
 .px-info:hover .info-data {
     display: block;
 }
+
+.selectedCanvas{
+    opacity: 0.5;
+    cursor: default;
+}
