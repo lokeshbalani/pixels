@@ -47,15 +47,107 @@ if (typeof (px.utils) === "undefined") px.utils = {};
             var html = '<div class="txt">';
 
             // some text just to show zoom level on current item in this example
-            if($(this).attr('data-ksize')){
+            if ($(this).attr('data-ksize')) {
                 html += 'KERNEL SIZE: <strong class="pri-3 bold">' + $(this).attr('data-ksize') + '</strong><br>';
             }
-            if($(this).attr('data-scale')){
+            if ($(this).attr('data-scale')) {
                 html += '<strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER';
             }
 
             html += '</div>'
             $(this).append(html);
         })
-    }
+    };
+
+    px.utils.canvas_fit2container = function (canvas, w, h, isPositonAbsolute) {
+        // Make it visually fill the positioned parent
+        canvas.style.width = '100%';
+
+        if (isPositonAbsolute) {
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+        }
+
+        // ...then set the internal size to match
+        canvas.width = w;
+        canvas.height = h;
+    };
+
+    px.utils.init_canvas_selectnzoom = function (originalCanvas) {
+        var xyCoord = originalCanvas.getBoundingClientRect();
+        var shiftX = xyCoord.left;
+        var shiftY = xyCoord.top;
+        var container = originalCanvas.parentElement;
+
+        var selCanvas = document.createElement('canvas');
+        var selContext = selCanvas.getContext("2d");
+        selCanvas.setAttribute("class", "selectedCanvas");
+        container.append(selCanvas);
+        px.utils.canvas_fit2container(selCanvas, originalCanvas.width, originalCanvas.height, true);
+
+        var targetImage = document.createElement('img'),
+            downloadContainer = document.createElement('div');
+
+        downloadContainer.setAttribute("class", "downloadContainer");
+        targetImage.setAttribute("class", "targetImage");
+
+        downloadContainer.append(targetImage);
+        container.append(downloadContainer);
+
+        var width = originalCanvas.width,
+            height = originalCanvas.height;
+
+        selContext.fillStyle = '#000';
+
+        var clipCanvas = document.createElement('canvas'),
+            clipContext = clipCanvas.getContext('2d');
+
+        clipCanvas.width = 0;
+        clipCanvas.height = 0;
+
+        downloadContainer.append(clipCanvas);
+
+        selCanvas.onmousedown = function (event) {
+            var x0 = Math.max(0, Math.min(event.clientX - shiftX, width)),
+                y0 = Math.max(0, Math.min(event.clientY - shiftY, height));
+
+            targetImage.style.display = 'none';
+
+            function update(event) {
+                var x = Math.max(0, Math.min(event.clientX - shiftX, width)),
+                    y = Math.max(0, Math.min(event.clientY - shiftY, height)),
+                    dx = x - x0,
+                    w = Math.abs(dx),
+                    dy = y - y0,
+                    h = Math.abs(dy);
+
+                selContext.clearRect(0, 0, width, height);
+                selContext.fillRect(x0, y0, dx, dy);
+                clipCanvas.width = w;
+                clipCanvas.height = h;
+                if (w * h == 0) {
+                    downloadContainer.style.visibility = 'hidden';
+                } else {
+                    downloadContainer.style.visibility = 'visible';
+                    clipContext.drawImage(originalCanvas,
+                        x0 + Math.min(0, dx), y0 + Math.min(0, dy), w, h,
+                        0, 0, w, h);
+                    downloadContainer.style.visibility = (w * h == 0 ? 'hidden' : 'visible');
+                }
+
+                clipCanvas.style.display = 'none';
+            };
+            update(event);
+            selCanvas.onmousemove = update;
+            document.onmouseup = function (event) {
+                selCanvas.onmousemove = undefined;
+                document.onmouseup = undefined;
+                targetImage.src = clipCanvas.toDataURL();
+                targetImage.style.display = 'block';
+            };
+        };
+    };
+
+
 })(document, window, 0);

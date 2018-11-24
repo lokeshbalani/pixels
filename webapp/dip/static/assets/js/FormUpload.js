@@ -32,17 +32,35 @@
                 var uploadedDisplayEl = placeholder.querySelector('.box__im__uploaded');
                 uploadedDisplayEl.innerHTML = "";
 
+                var originalCanvas = document.createElement('canvas');
+                originalCanvas.setAttribute("id", "upl_originalCanvas");
+                var originalContext = originalCanvas.getContext("2d");
+                uploadedDisplayEl.append(originalCanvas);
+
                 Array.prototype.forEach.call(files, function (file, index) {
-                    var img = document.createElement('img');
-                    img.setAttribute("class", "photo")
-                    img.onload = function () {
-                        window.URL.revokeObjectURL(this.src);
-                    };
-                    img.style.width = '100%';
+                    var img = new Image();
                     img.src = window.URL.createObjectURL(file);
-                    uploadedDisplayEl.append(img);
-                    px.utils.generate_zoom_pan_img(img)
+                    img.onload = function () {
+                        px.utils.canvas_fit2container(originalCanvas, img.width, img.height);
+                        originalContext.drawImage(img, 0, 0);
+                        window.URL.revokeObjectURL(this.src);
+                        px.utils.init_canvas_selectnzoom(originalCanvas);
+                    };
                 });
+
+                // Array.prototype.forEach.call(files, function (file, index) {
+                //     var img = document.createElement('img');
+                //     img.setAttribute("class", "photo")
+                //     img.onload = function () {
+                //         window.URL.revokeObjectURL(this.src);
+                //     };
+                //     img.style.width = '100%';
+                //     img.src = window.URL.createObjectURL(file);
+                //     uploadedDisplayEl.append(img);
+                //     px.utils.generate_zoom_pan_img(img)
+                // });
+
+
 
             },
             triggerFormSubmit = function () {

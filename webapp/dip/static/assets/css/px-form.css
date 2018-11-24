@@ -236,3 +236,12 @@
     font-weight: 600;
     letter-spacing: 1.5px;
 }
+
+.box__im__uploaded,
+.box__im__uploaded .downloadContainer{
+    position: relative;
+}
+
+.box__im__uploaded img{
+    width: 100%;
+}
