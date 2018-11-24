@@ -7,13 +7,16 @@ from dip.py_modules.Averaging import Averaging
 
 from .helpers import get_filename, images_dirpath, generate_filename, clean_media_root
 
-def avg_filter_view(request):
+def averaging_filter_view(request):
     clean_media_root()
 
     template_name = 'modules/spatial_filters/averaging.html'
-    return render(request, template_name)
+    return render(request, template_name, {
+        "show_lec_form": "true",
+        "show_diy_form": "true"
+    })
 
-def avg_filter_diy_view(request):    
+def averaging_filter_diy_view(request):    
     template_name = 'modules/spatial_filters/averaging.html'
 
     if request.method == 'POST' and request.FILES['usr_upload_image']:
@@ -26,31 +29,35 @@ def avg_filter_diy_view(request):
         uimage_path, uimage_fname = get_filename(uploaded_image_url)
 
         # Generate the output image path
-        save_to = images_dirpath('output_images', uimage_fname, 'avg_')
+        save_to = images_dirpath('output_images', uimage_fname, 'averaging_')
         save_to_abs = os.path.join(settings.MEDIA_ROOT, save_to)
 
         # Create output_images folder if it DNE
-        avg_path = get_filename(save_to_abs)[0]
-        if not os.path.isdir(avg_path):
-            os.makedirs(avg_path)
+        averaging_path = get_filename(save_to_abs)[0]
+        if not os.path.isdir(averaging_path):
+            os.makedirs(averaging_path)
 
-        generated_avg_path = uimage_path.replace('input_images', 'output_images')
-        generated_avg_fname = generate_filename(uimage_fname, 'avg_')
-        generated_avg_url = os.path.join(generated_avg_path, generated_avg_fname)
+        generated_averaging_path = uimage_path.replace('input_images', 'output_images')
+        generated_averaging_fname = generate_filename(uimage_fname, 'averaging_')
+        generated_averaging_url = os.path.join(generated_averaging_path, generated_averaging_fname)
 
         ksize = int(request.POST.get('ksize'))
 
-        # Generate Average Filtered Image
-        Averaging(uploaded_image_url, save_to_abs).generate_avg_filtered_image(ksize)
+        # Generate Averaging Filtered Image
+        averaging_flt = Averaging(uploaded_image_url, save_to_abs)
+        im_dim = averaging_flt.get_im_dim()
+        averaging_flt.generate_averaging_filtered_image(ksize)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
-            'diy_generated_avg_url': generated_avg_url
+            'diy_generated_averaging_url': generated_averaging_url,
+            "show_lec_form": "false",
+            "show_diy_form": "true"
         })
 
     return render(request, template_name)
 
-def avg_filter_lec_view(request):
+def averaging_filter_lec_view(request):
     template_name = 'modules/spatial_filters/averaging.html'
 
     if request.method == 'POST' and request.FILES['prof_upload_image']:
@@ -63,34 +70,42 @@ def avg_filter_lec_view(request):
         uimage_path, uimage_fname = get_filename(uploaded_image_url)
 
         ksize_list = request.POST.getlist('ksize')
-        generated_avg_url = list()
+        generated_averaging_url = list()
 
         for ksize in ksize_list:
             # Generate the output image path
-            AVG_PREFIX = 'avg_' + ksize + "_"
-            save_to = images_dirpath('output_images', uimage_fname, AVG_PREFIX)
+            AVERAGING_PREFIX = 'averaging_' + ksize + "_"
+            save_to = images_dirpath('output_images', uimage_fname, AVERAGING_PREFIX)
             save_to_abs = os.path.join(settings.MEDIA_ROOT, save_to)
 
             # Create output_images folder if it DNE
-            avg_path = get_filename(save_to_abs)[0]
-            if not os.path.isdir(avg_path):
-                os.makedirs(avg_path)
+            averaging_path = get_filename(save_to_abs)[0]
+            if not os.path.isdir(averaging_path):
+                os.makedirs(averaging_path)
 
-            generated_avg_path = uimage_path.replace('input_images', 'output_images')
-            generated_avg_fname = generate_filename(uimage_fname, AVG_PREFIX)
-            generated_avg_obj = {
+            generated_averaging_path = uimage_path.replace('input_images', 'output_images')
+            generated_averaging_fname = generate_filename(uimage_fname, AVERAGING_PREFIX)
+
+            # Generate Averaging Filtered Image
+            averaging_flt = Averaging(uploaded_image_url, save_to_abs)
+            im_dim = averaging_flt.get_im_dim()
+            ptime = averaging_flt.generate_averaging_filtered_image(int(ksize))
+
+            generated_averaging_obj = {
                 "ksize": ksize,
-                "url": os.path.join(generated_avg_path, generated_avg_fname)
+                "url": os.path.join(generated_averaging_path, generated_averaging_fname),
+                "w": im_dim[1],
+                "h": im_dim[0],
+                "ptime": ptime
             }
 
-            generated_avg_url.append(generated_avg_obj)
-
-            # Generate Average Filtered Image
-            Averaging(uploaded_image_url, save_to_abs).generate_avg_filtered_image(int(ksize))
+            generated_averaging_url.append(generated_averaging_obj)
 
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,
-            'lec_generated_avg_url': generated_avg_url
+            'lec_generated_averaging_url': generated_averaging_url,
+            "show_lec_form": "true",
+            "show_diy_form": "false"
         })
 
     return render(request, template_name)
