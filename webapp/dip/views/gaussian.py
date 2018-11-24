@@ -11,7 +11,10 @@ def gaussian_filter_view(request):
     clean_media_root()
 
     template_name = 'modules/spatial_filters/gaussian.html'
-    return render(request, template_name)
+    return render(request, template_name, {
+        "show_lec_form": "true",
+        "show_diy_form": "true"
+    })
 
 def gaussian_filter_diy_view(request):    
     template_name = 'modules/spatial_filters/gaussian.html'
@@ -39,14 +42,18 @@ def gaussian_filter_diy_view(request):
         generated_gaussian_url = os.path.join(generated_gaussian_path, generated_gaussian_fname)
 
         ksize = int(request.POST.get('ksize'))
-        sigma = int(request.POST.get('sigma_diy'))
+        sigma = int(request.POST.get('sigma'))        
 
         # Generate Gaussian Filtered Image
-        Gaussian(uploaded_image_url, save_to_abs).generate_gaussian_filtered_image(ksize, sigma)
+        gaussian_flt = Gaussian(uploaded_image_url, save_to_abs)
+        im_dim = gaussian_flt.get_im_dim()
+        gaussian_flt.generate_gaussian_filtered_image(ksize, sigma)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
-            'diy_generated_gaussian_url': generated_gaussian_url
+            'diy_generated_gaussian_url': generated_gaussian_url,
+            "show_lec_form": "false",
+            "show_diy_form": "true"
         })
 
     return render(request, template_name)
@@ -64,7 +71,7 @@ def gaussian_filter_lec_view(request):
         uimage_path, uimage_fname = get_filename(uploaded_image_url)
 
         ksize_list = request.POST.getlist('ksize')
-        sigma = int(request.POST.get('sigma_lec'))
+        sigma = int(request.POST.get('sigma'))          
         generated_gaussian_url = list()
 
         for ksize in ksize_list:
@@ -80,20 +87,27 @@ def gaussian_filter_lec_view(request):
 
             generated_gaussian_path = uimage_path.replace('input_images', 'output_images')
             generated_gaussian_fname = generate_filename(uimage_fname, GAUSSIAN_PREFIX)
+
+            # Generate Gaussian Filtered Image
+            gaussian_flt = Gaussian(uploaded_image_url, save_to_abs)
+            im_dim = gaussian_flt.get_im_dim()
+            ptime = gaussian_flt.generate_gaussian_filtered_image(int(ksize), sigma)
+
             generated_gaussian_obj = {
                 "ksize": ksize,
-                "sigma": sigma,
-                "url": os.path.join(generated_gaussian_path, generated_gaussian_fname)
+                "url": os.path.join(generated_gaussian_path, generated_gaussian_fname),
+                "w": im_dim[1],
+                "h": im_dim[0],
+                "ptime": ptime
             }
 
             generated_gaussian_url.append(generated_gaussian_obj)
 
-            # Generate Gaussian Filtered Image
-            Gaussian(uploaded_image_url, save_to_abs).generate_gaussian_filtered_image(int(ksize), sigma)
-
         return render(request, template_name, {
             'lec_uploaded_image_url': uploaded_image_url,
-            'lec_generated_gaussian_url': generated_gaussian_url
+            'lec_generated_gaussian_url': generated_gaussian_url,
+            "show_lec_form": "true",
+            "show_diy_form": "false"
         })
 
     return render(request, template_name)
