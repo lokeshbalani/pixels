@@ -33,19 +33,19 @@ class Median(object):
         set_dpi = figure.get_dpi()
 
         start = time()
-        median_im = cv2.medianBlur(self.image, ksize)
+        filtered_im = cv2.medianBlur(self.image, ksize)
         end = time()
 
         ptime = end-start
 
-        median_im = cv2.cvtColor(median_im, cv2.COLOR_BGR2RGB)
+        filtered_im = cv2.cvtColor(filtered_im, cv2.COLOR_BGR2RGB)
 
         figure.set_size_inches(self.image.shape[1]/set_dpi, self.image.shape[0]/set_dpi)
-        disp_fig = plt.imshow(median_im)
+        disp_fig = plt.imshow(filtered_im)
         plt.axis('off')
         disp_fig.axes.get_xaxis().set_visible(False)
         disp_fig.axes.get_yaxis().set_visible(False)
 
         plt.savefig(self.plotpath, bbox_inches='tight', pad_inches=0, dpi=set_dpi * 1.3)
 
-        return ptime
+        return round(ptime,6)
