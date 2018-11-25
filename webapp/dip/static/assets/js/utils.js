@@ -26,37 +26,21 @@ if (typeof (px.utils) === "undefined") px.utils = {};
     //function to add zoom and pan functionality to images
     px.utils.generate_zoom_pan_img = function (el) {
         pximg = el.parentElement;
-        // zoom-pan mouse actions
-        $(pximg).on('mouseover', function () {
-            $(this).children('.photo').css({
-                'transform': 'scale(' + $(this).attr('data-scale') + ')'
-            });
-        })
-        $(pximg).on('mouseout', function () {
-            $(this).children('.photo').css({
-                'transform': 'scale(1)'
-            });
-        })
-        $(pximg).on('mousemove', function (e) {
-            $(this).children('.photo').css({
-                'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%'
-            });
-        })
-        // px-img set up
-        $(pximg).each(function () {
-            var html = '<div class="txt">';
 
-            // some text just to show zoom level on current item in this example
-            if ($(this).attr('data-ksize')) {
-                html += 'KERNEL SIZE: <strong class="pri-3 bold">' + $(this).attr('data-ksize') + '</strong><br>';
-            }
-            if ($(this).attr('data-scale')) {
-                html += '<strong class="pri-3 bold">' + $(this).attr('data-scale') + 'x </strong>ZOOM ON HOVER';
-            }
+        var originalCanvas = document.createElement('canvas');
+        originalCanvas.setAttribute("class", "originalCanvas");
+        var originalContext = originalCanvas.getContext("2d");
+        pximg.append(originalCanvas);
 
-            html += '</div>'
-            $(this).append(html);
-        })
+        var img = new Image();
+        img.src = el.src;
+        img.onload = function () {
+            px.utils.canvas_fit2container(originalCanvas, img.width, img.height);
+            originalContext.drawImage(img, 0, 0);
+            px.utils.init_canvas_selectnzoom(originalCanvas);
+        };
+
+        el.style.display = 'none';
     };
 
     px.utils.canvas_fit2container = function (canvas, w, h, isPositonAbsolute) {
@@ -109,14 +93,14 @@ if (typeof (px.utils) === "undefined") px.utils = {};
         downloadContainer.append(clipCanvas);
 
         selCanvas.onmousedown = function (event) {
-            var x0 = Math.max(0, Math.min(event.clientX - shiftX, width)),
-                y0 = Math.max(0, Math.min(event.clientY - shiftY, height));
+            var x0 = Math.max(0, Math.min(Math.abs(event.clientX - shiftX), width)),
+                y0 = Math.max(0, Math.min(Math.abs(event.clientY - shiftY), height));
 
             targetImage.style.display = 'none';
 
             function update(event) {
-                var x = Math.max(0, Math.min(event.clientX - shiftX, width)),
-                    y = Math.max(0, Math.min(event.clientY - shiftY, height)),
+                var x = Math.max(0, Math.min(Math.abs(event.clientX - shiftX), width)),
+                    y = Math.max(0, Math.min(Math.abs(event.clientY - shiftY), height)),
                     dx = x - x0,
                     w = Math.abs(dx),
                     dy = y - y0,
@@ -136,7 +120,6 @@ if (typeof (px.utils) === "undefined") px.utils = {};
                     downloadContainer.style.visibility = (w * h == 0 ? 'hidden' : 'visible');
                 }
 
-                clipCanvas.style.display = 'none';
             };
             update(event);
             selCanvas.onmousemove = update;
@@ -147,7 +130,8 @@ if (typeof (px.utils) === "undefined") px.utils = {};
                 targetImage.style.display = 'block';
             };
         };
-    };
 
+        clipCanvas.style.display = 'none';
+    };
 
 })(document, window, 0);

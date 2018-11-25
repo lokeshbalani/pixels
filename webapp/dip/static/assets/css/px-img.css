@@ -69,3 +69,7 @@
     opacity: 0.5;
     cursor: default;
 }
+
+.px-img .downloadContainer img{
+    width: 100%;
+}
