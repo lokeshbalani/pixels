@@ -1,6 +1,6 @@
 from .histogram import *
 from .home import *
-from .median import *
+from .erosion import *
 from .gaussian import *
 from .bilateral import *
 from .averaging import *
@@ -8,3 +8,4 @@ from .sobel import *
 from .globalthresholding import *
 from .adaptivethresholding import *
 from .connected_components import *
+from .median import *
