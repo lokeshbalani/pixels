@@ -1,6 +1,7 @@
 from .histogram import *
 from .home import *
 from .erosion import *
+from .dilation import *
 from .gaussian import *
 from .bilateral import *
 from .averaging import *
