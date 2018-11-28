@@ -8,6 +8,7 @@ from .gaussian import *
 from .bilateral import *
 from .averaging import *
 from .sobel import *
+from .laplacian import *
 from .globalthresholding import *
 from .adaptivethresholding import *
 from .connected_components import *
