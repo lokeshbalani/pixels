@@ -8,13 +8,45 @@ if (typeof (px.utils) === "undefined") px.utils = {};
         let init = new ConnectedComponents(ccEl)
     };
 
+    class Group {
+        constructor(head) {
+            this.members = new Set();
+            this.head = head;
+            this.add(head);
+        }
+        add(member) {
+            this.members.add(member);
+        }
+        union(other) {
+            this.members = new Set([...other.members, ...this.members]);
+        }
+    }
+
     function ConnectedComponents(comp) {
         var me = this;
-        this.jqcomp = jQuery(comp)
+        this.jqcomp = jQuery(comp);
+
+        this.colors = ["aqua", "beige", "blue", "violetblue", "brown", "chocolate", "crimson", "darkblue", "darkgrey", "darkgreen", "lightgreen", "yellow", "magenta", "pink", "indigo", "lavender", "lightgrey", "teal", "wheat"];
+
+        this.assignColors = function (table_id) {
+            var tdEls = document.querySelectorAll("#" + table_id + " td");
+
+            for (let i = 0; i < tdEls.length; i++) {
+                if (tdEls[i].textContent <= me.colors.length && tdEls[i].textContent > 0) {
+                    tdEls[i].style.backgroundColor = me.colors[tdEls[i].textContent - 1];
+                }
+            }
+        };
 
         this.displayTable = function (mat, container_id) {
             if (typeof (container_id) != "undefined" && container_id != "") {
                 let ccTbl = document.querySelector("#" + container_id + " tbody");
+
+                if(ccTbl.closest(".connected-component").classList.contains("hide")){
+                    ccTbl.closest(".connected-component").classList.remove("hide");
+                    ccTbl.closest(".connected-component").classList.add("show");
+                }
+                
 
                 let html = "",
                     i, j;
@@ -23,14 +55,13 @@ if (typeof (px.utils) === "undefined") px.utils = {};
                     html += "<tr>";
 
                     for (j = 0; j < mat[i].length; j++) {
-                        if(i != 0 && i != (mat.length - 1) && j != 0 && j != (mat[i].length - 1)){
+                        if (i != 0 && i != (mat.length - 1) && j != 0 && j != (mat[i].length - 1)) {
                             if (mat[i][j] > 0) {
                                 html += "<td class='white' contenteditable='true' data-pos='" + i + "," + j + "'>" + mat[i][j] + "</td>"
                             } else {
                                 html += "<td class='black' contenteditable='true' data-pos='" + i + "," + j + "'>" + mat[i][j] + "</td>"
                             }
-                        }
-                        else{
+                        } else {
                             if (mat[i][j] > 0) {
                                 html += "<td class='white' data-pos='" + i + "," + j + "'>" + mat[i][j] + "</td>"
                             } else {
@@ -45,11 +76,11 @@ if (typeof (px.utils) === "undefined") px.utils = {};
             }
         };
 
-        this.associateEditableEvents = function(){
-            let editableCells =  document.querySelectorAll("td[contenteditable='true']");
+        this.associateEditableEvents = function () {
+            let editableCells = document.querySelectorAll("td[contenteditable='true']");
 
-            for(let i = 0; i < editableCells.length; i++){
-                editableCells[i].addEventListener('input', function(e){
+            for (let i = 0; i < editableCells.length; i++) {
+                editableCells[i].addEventListener('input', function (e) {
                     if (parseInt(e.target.textContent) > 0) {
                         e.target.classList.remove('black');
                         e.target.classList.add('white');
@@ -103,8 +134,111 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
         this.fpClickHandler = function () {
             var connectivityEl = document.querySelector("input[name='connectivity']:checked");
-            fp_mat = me.firstPass(me.mat, connectivityEl.value);
-            me.displayTable(fp_mat, "connected-component-fp");
+            me.connectivity = connectivityEl.value;
+            me.fp_mat = me.firstPass(me.mat, me.connectivity);
+            me.displayTable(me.fp_mat, "connected-component-fp");
+            me.assignColors("connected-component-fp");
+        };
+
+        this.getnodeLabelPairs = function (mat, connectivity) {
+            let all_labels = [];
+            let pairs_collected = [];
+
+            for (i = 1; i < mat.length - 1; i++) {
+                for (j = 1; j < mat[i].length - 1; j++) {
+                    let current_label = mat[i][j];
+
+                    if (current_label != 0) {
+                        all_labels.push([current_label, current_label]);
+
+                        if (mat[i - 1][j] > 0 && mat[i - 1][j] != current_label) {
+                            let top_label = mat[i - 1][j];
+
+                            if (!pairs_collected.includes([current_label, top_label]) && !pairs_collected.includes([top_label, current_label])) {
+                                pairs_collected.push([current_label, top_label]);
+                            }
+                        }
+
+                        if (connectivity == 8) {
+                            if (mat[i - 1][j + 1] > 0 && mat[i - 1][j + 1] != current_label) {
+                                let label_45 = mat[i - 1][j + 1];
+
+                                if (!pairs_collected.includes([current_label, label_45]) && !pairs_collected.includes([label_45, current_label])) {
+                                    pairs_collected.push([current_label, label_45]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            pairs_collected.concat(all_labels);
+
+            return pairs_collected;
+        };
+
+        this.unionFind = function (mat, connectivity) {
+            let pairs_collected = me.getnodeLabelPairs(mat, connectivity);
+
+            let groups = {};
+
+            for (let i = 0; i < pairs_collected.length; i++) {
+                let head = pairs_collected[i][0];
+
+                if (!(head in groups)) {
+                    var group = new Group(head);
+                    groups[head] = group;
+                } else {
+                    group = groups[head];
+                }
+
+                let node = pairs_collected[i][1];
+
+                if (!(node in groups)) {
+                    group.add(node);
+                    groups[node] = group;
+                } else if (!(head in groups[node].members)) {
+                    //merge two groups
+                    let new_members = groups[node];
+                    group.union(new_members);
+
+                    for (let migrate of new_members.members) {
+                        groups[migrate] = group;
+                    }
+                }
+            }
+
+            return groups;
+        };
+
+        this.secondPass = function () {
+            let groups = me.unionFind(me.fp_mat, me.connectivity);
+
+            let tree = [];
+            var sp_mat = me.fp_mat;
+
+            for (let [key, value] of Object.entries(groups)) {
+                if (key == value.head) {
+                    tree.push([...value.members]);
+                }
+            }
+
+            for (let m = 0; m < tree.length; m++) {
+                    for (let i = 1; i < sp_mat.length - 1; i++) {
+                        for (let j = 1; j < sp_mat[i].length - 1; j++) {
+                            if(tree[m].includes(sp_mat[i][j])) sp_mat[i][j] = tree[m][0];
+                        }
+                    }
+               
+            }
+
+            me.sp_mat = sp_mat;
+        };
+
+        this.spClickHandler = function () {
+            me.secondPass();
+            me.displayTable(me.sp_mat, "connected-component-sp");
+            me.assignColors("connected-component-sp");
         };
 
         this.init = function () {
@@ -126,6 +260,9 @@ if (typeof (px.utils) === "undefined") px.utils = {};
 
             var fpBtn = document.querySelector(".connected-component .cc__fp");
             fpBtn.addEventListener("click", me.fpClickHandler);
+
+            var spBtn = document.querySelector(".connected-component .cc__sp");
+            spBtn.addEventListener("click", me.spClickHandler);
 
         };
 
