@@ -36,10 +36,10 @@ class Sobel(object):
 
         start = time()
 
-        if ksize == 0:
+        if ksize == 90:
             filtered_im = cv2.Sobel(filtered_im,cv2.CV_64F,1,0,ksize=3)  # x
 
-        elif ksize == 90:
+        elif ksize == 0:
             filtered_im = cv2.Sobel(filtered_im,cv2.CV_64F,0,1,ksize=3)  # y
 
         elif ksize == -45:
