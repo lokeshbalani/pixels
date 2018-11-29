@@ -46,13 +46,17 @@ def adaptivethresholding_diy_view(request):
         # Generate adaptivethresholding Image
         adaptivethresholding_flt = AdaptiveThresholding(uploaded_image_url, save_to_abs)
         im_dim = adaptivethresholding_flt.get_im_dim()
-        adaptivethresholding_flt.generate_adaptivethresholding_image(blocksize)
+        ptime = adaptivethresholding_flt.generate_adaptivethresholding_image(blocksize)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
             'diy_generated_adaptivethresholding_url': generated_adaptivethresholding_url,
             "show_lec_form": "false",
-            "show_diy_form": "true"
+            "show_diy_form": "true",
+            "im_width": im_dim[1],
+            "im_height": im_dim[0],
+            "ptime": ptime,
+            "blocksize": blocksize
         })
 
     return render(request, template_name)
