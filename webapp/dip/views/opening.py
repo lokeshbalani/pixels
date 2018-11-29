@@ -46,13 +46,17 @@ def opening_filter_diy_view(request):
         # Generate Opening Filtered Image
         opening_flt = Opening(uploaded_image_url, save_to_abs)
         im_dim = opening_flt.get_im_dim()
-        opening_flt.generate_opening_filtered_image(ksize)
+        ptime = opening_flt.generate_opening_filtered_image(ksize)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
             'diy_generated_opening_url': generated_opening_url,
             "show_lec_form": "false",
-            "show_diy_form": "true"
+            "show_diy_form": "true",
+            "im_width": im_dim[1],
+            "im_height": im_dim[0],
+            "ptime": ptime,
+            "ksize": ksize
         })
 
     return render(request, template_name)
