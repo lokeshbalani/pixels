@@ -48,13 +48,19 @@ def bilateral_filter_diy_view(request):
         # Generate Bilateral Filtered Image
         bilateral_flt = Bilateral(uploaded_image_url, save_to_abs)
         im_dim = bilateral_flt.get_im_dim()
-        bilateral_flt.generate_bilateral_filtered_image(int(ksize), sigmaColor, sigmaSpace)
+        ptime = bilateral_flt.generate_bilateral_filtered_image(int(ksize), sigmaColor, sigmaSpace)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
             'diy_generated_bilateral_url': generated_bilateral_url,
             "show_lec_form": "false",
-            "show_diy_form": "true"
+            "show_diy_form": "true",
+            "im_width": im_dim[1],
+            "im_height": im_dim[0],
+            "ptime": ptime,
+            "ksize": ksize,
+            "sigmaColor": sigmaColor,
+            "sigmaSpace": sigmaSpace
         })
 
     return render(request, template_name)
@@ -101,7 +107,9 @@ def bilateral_filter_lec_view(request):
                 "url": os.path.join(generated_bilateral_path, generated_bilateral_fname),
                 "w": im_dim[1],
                 "h": im_dim[0],
-                "ptime": ptime
+                "ptime": ptime,
+                "sigmaColor": sigmaColor,
+                "sigmaSpace": sigmaSpace
             }
 
             generated_bilateral_url.append(generated_bilateral_obj)

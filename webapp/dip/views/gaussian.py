@@ -47,13 +47,18 @@ def gaussian_filter_diy_view(request):
         # Generate Gaussian Filtered Image
         gaussian_flt = Gaussian(uploaded_image_url, save_to_abs)
         im_dim = gaussian_flt.get_im_dim()
-        gaussian_flt.generate_gaussian_filtered_image(ksize, sigma)
+        ptime = gaussian_flt.generate_gaussian_filtered_image(ksize, sigma)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
             'diy_generated_gaussian_url': generated_gaussian_url,
             "show_lec_form": "false",
-            "show_diy_form": "true"
+            "show_diy_form": "true",
+            "im_width": im_dim[1],
+            "im_height": im_dim[0],
+            "ptime": ptime,
+            "ksize": ksize,
+            "sigma": sigma
         })
 
     return render(request, template_name)
@@ -98,7 +103,8 @@ def gaussian_filter_lec_view(request):
                 "url": os.path.join(generated_gaussian_path, generated_gaussian_fname),
                 "w": im_dim[1],
                 "h": im_dim[0],
-                "ptime": ptime
+                "ptime": ptime,
+                "sigma": sigma
             }
 
             generated_gaussian_url.append(generated_gaussian_obj)

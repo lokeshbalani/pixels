@@ -46,13 +46,17 @@ def median_filter_diy_view(request):
         # Generate Median Filtered Image
         median_flt = Median(uploaded_image_url, save_to_abs)
         im_dim = median_flt.get_im_dim()
-        median_flt.generate_median_filtered_image(ksize)
+        ptime = median_flt.generate_median_filtered_image(ksize)
 
         return render(request, template_name, {
             'diy_uploaded_image_url': uploaded_image_url,
             'diy_generated_median_url': generated_median_url,
             "show_lec_form": "false",
-            "show_diy_form": "true"
+            "show_diy_form": "true",
+            "im_width": im_dim[1],
+            "im_height": im_dim[0],
+            "ptime": ptime,
+            "ksize": ksize
         })
 
     return render(request, template_name)
