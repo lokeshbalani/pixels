@@ -22,7 +22,6 @@ urlpatterns = [
     path('sobel-filter/', views.sobel_filter_view, name='sobel-filter'),
     path('sobel-filter/lec/', views.sobel_filter_lec_view, name='sobel-filter-lec'),
     path('laplacian-filter/', views.laplacian_filter_view, name='laplacian-filter'),
-    path('laplacian-filter/diy/', views.laplacian_filter_diy_view, name='laplacian-filter-diy'),
     path('laplacian-filter/lec/', views.laplacian_filter_lec_view, name='laplacian-filter-lec'),
     path('globalthresholding/', views.globalthresholding_view, name='globalthresholding'),
     path('globalthresholding/diy/', views.globalthresholding_diy_view, name='globalthresholding-diy'),
