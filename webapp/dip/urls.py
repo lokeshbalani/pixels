@@ -20,7 +20,6 @@ urlpatterns = [
     path('closing-filter/diy/', views.closing_filter_diy_view, name='closing-filter-diy'),
     path('closing-filter/lec/', views.closing_filter_lec_view, name='closing-filter-lec'),
     path('sobel-filter/', views.sobel_filter_view, name='sobel-filter'),
-    path('sobel-filter/diy/', views.sobel_filter_diy_view, name='sobel-filter-diy'),
     path('sobel-filter/lec/', views.sobel_filter_lec_view, name='sobel-filter-lec'),
     path('laplacian-filter/', views.laplacian_filter_view, name='laplacian-filter'),
     path('laplacian-filter/diy/', views.laplacian_filter_diy_view, name='laplacian-filter-diy'),
